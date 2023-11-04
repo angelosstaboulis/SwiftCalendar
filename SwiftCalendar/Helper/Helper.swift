@@ -11,7 +11,7 @@ class Helper{
     private init(){}
     func getDate() -> String{
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "EEEE dd/MM/yyyy"
         return formatter.string(from: Date())
     }
     func getTime() -> String{

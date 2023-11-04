@@ -30,7 +30,12 @@ extension ViewController{
     func createView(){
         Task.init{
             lblDate.text = Helper.shared.getDate()
-            lblTime.text = Helper.shared.getTime()
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                DispatchQueue.main.async {
+                    self.lblTime.text = Helper.shared.getTime()
+
+                }
+            }.fire()
             lblTimeZone.text =  Helper.shared.getTimeZone()
             lblNameDay.text = await Helper.shared.getNameDay()
         }
