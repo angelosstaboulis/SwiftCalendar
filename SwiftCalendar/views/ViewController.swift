@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var lblNameDay: UILabel!
+    var helper = Helper()
+    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     override func viewDidLoad() {
         super.viewDidLoad()
         createView()
@@ -28,16 +30,13 @@ class ViewController: UIViewController {
 }
 extension ViewController{
     func createView(){
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] (timer) in
+            self!.lblTime.text = SwiftCalendarTimer.shared.getTime()
+        }
         Task.init{
-            lblDate.text = Helper.shared.getDate()
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                DispatchQueue.main.async {
-                    self.lblTime.text = Helper.shared.getTime()
-
-                }
-            }.fire()
-            lblTimeZone.text =  Helper.shared.getTimeZone()
-            lblNameDay.text = await Helper.shared.getNameDay()
+            lblDate.text = await helper.getDate()
+            lblTimeZone.text = await helper.getTimeZone()
+            lblNameDay.text = await helper.getNameDay()
         }
   
 
